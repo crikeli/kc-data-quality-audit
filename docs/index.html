@@ -61,7 +61,7 @@
 <body>
   <h1>King County GIS Open Data - Quality Audit</h1>
   <p class="caption">A rule-based audit of a curated subset of King County's published GIS layers.
-  Last audited: 2026-09-17 03:28 UTC. See the About tab for exactly what's checked and why.</p>
+  Last audited: 2026-09-17 03:30 UTC. See the About tab for exactly what's checked and why.</p>
 
   <div class="tabs">
     <button class="tab-btn active" data-tab="scorecard">Scorecard</button>
@@ -71,9 +71,9 @@
 
   <div class="tab-panel active" id="tab-scorecard">
     <div class="metrics">
-      <div class="metric"><div class="metric-value">18</div><div class="metric-label">Datasets audited</div></div>
+      <div class="metric"><div class="metric-value">17</div><div class="metric-label">Datasets audited</div></div>
       <div class="metric"><div class="metric-value">10</div><div class="metric-label">Clean (0 issues flagged)</div></div>
-      <div class="metric"><div class="metric-value">8</div><div class="metric-label">With at least 1 issue flagged</div></div>
+      <div class="metric"><div class="metric-value">7</div><div class="metric-label">With at least 1 issue flagged</div></div>
     </div>
 
     <h2>Datasets ranked by issues flagged</h2>
@@ -94,12 +94,6 @@
           <td>2</td>
         </tr>
         <tr>
-          <td>Rivers and Streams in King County</td>
-          <td>esriGeometryPolyline</td>
-          <td>500</td>
-          <td>1</td>
-        </tr>
-        <tr>
           <td>Parcels with Address Property and Ownership Information (Public)</td>
           <td>esriGeometryPolygon</td>
           <td>500</td>
@@ -112,8 +106,8 @@
           <td>1</td>
         </tr>
         <tr>
-          <td>Wetlands defined from Critical Area Ordinance surveys in King County</td>
-          <td>esriGeometryPolygon</td>
+          <td>Rivers and Streams in King County</td>
+          <td>esriGeometryPolyline</td>
           <td>500</td>
           <td>1</td>
         </tr>
@@ -196,18 +190,18 @@
     <div class="bar-chart">
         <div class="bar-row">
           <div class="bar-label">Freshness</div>
-          <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
+          <div class="bar-track"><div class="bar-fill" style="width:25%"></div></div>
           <div class="bar-value">1</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">Geometry validity</div>
-          <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
-          <div class="bar-value">4</div>
         </div>
         <div class="bar-row">
           <div class="bar-label">Attribute null rates</div>
           <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
-          <div class="bar-value">5</div>
+          <div class="bar-value">4</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Geometry validity</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+          <div class="bar-value">4</div>
         </div></div>
 
     <h2>Cross-dataset family consistency</h2>
@@ -218,7 +212,7 @@
 
   <div class="tab-panel" id="tab-detail">
     <label for="dataset-select"><strong>Choose a dataset</strong></label><br>
-    <select id="dataset-select"><option value="ds-0" selected>Parcels with Address Property and Ownership Information (Public)</option><option value="ds-1">Zoning for Unincorporated King County</option><option value="ds-2">Comprehensive Plan Land Use</option><option value="ds-3">FEMA High Risk Flood Area (100-year Floodplain)</option><option value="ds-4">Potential landslide hazard areas 50-foot buffer 2016</option><option value="ds-5">Wetlands defined from Critical Area Ordinance surveys in King County</option><option value="ds-6">Sensitive Area Ordinance Streams</option><option value="ds-7">Rivers and Streams in King County</option><option value="ds-8">Roadlog Centerlines owned and maintained by King County Road Services</option><option value="ds-9">King County Metro Stops</option><option value="ds-10">Fire Station Locations in King County</option><option value="ds-11">Tree Point Index</option><option value="ds-12">Watershed boundaries derived from terrain data - King County only</option><option value="ds-13">LCI Opportunity Areas</option><option value="ds-14">Tree Canopy 2021 - Tree Points</option><option value="ds-15">t20r11tree point</option><option value="ds-16">t20r10tree point</option><option value="ds-17">t20r09tree point</option></select>
+    <select id="dataset-select"><option value="ds-0" selected>Parcels with Address Property and Ownership Information (Public)</option><option value="ds-1">Zoning for Unincorporated King County</option><option value="ds-2">Comprehensive Plan Land Use</option><option value="ds-3">FEMA High Risk Flood Area (100-year Floodplain)</option><option value="ds-4">Potential landslide hazard areas 50-foot buffer 2016</option><option value="ds-5">Sensitive Area Ordinance Streams</option><option value="ds-6">Rivers and Streams in King County</option><option value="ds-7">Roadlog Centerlines owned and maintained by King County Road Services</option><option value="ds-8">King County Metro Stops</option><option value="ds-9">Fire Station Locations in King County</option><option value="ds-10">Tree Point Index</option><option value="ds-11">Watershed boundaries derived from terrain data - King County only</option><option value="ds-12">LCI Opportunity Areas</option><option value="ds-13">Tree Canopy 2021 - Tree Points</option><option value="ds-14">t20r11tree point</option><option value="ds-15">t20r10tree point</option><option value="ds-16">t20r09tree point</option></select>
     
         <div class="detail-panel" id="ds-0">
           <h3>Parcels with Address Property and Ownership Information (Public)</h3>
@@ -376,37 +370,6 @@
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/27b690919fee4fef96390815298e95a4_0 returned HTTP 200.</p>
         </div>
         <div class="detail-panel" id="ds-5" hidden>
-          <h3>Wetlands defined from Critical Area Ordinance surveys in King County</h3>
-          
-          <div class="detail-grid">
-            <div>
-              <p>For more information about this layer please see the GIS Data Catalog.Documented wetlands in King County; WA. Attributes include the date captured and other details for each feature. Some features document only a portion of a larger wetland in the landscape. This represents only a small portion of all wetlands in King County.</p>
-              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
-              <p><strong>Field count:</strong> 24</p>
-              <p><strong>Sampled records checked:</strong> 500</p>
-              <p><strong>Last modified (catalog metadata):</strong> 2025-07-23T00:04:31.623Z</p>
-            </div>
-            <div>
-              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::wetlands-defined-from-critical-area-ordinance-surveys-in-king-county" target="_blank" rel="noopener">Open on King County Hub</a></p>
-              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/WETLANDS_AREA_2063/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
-            </div>
-          </div>
-          <h4>Checks</h4>
-          
-            <p><span class="badge pass">PASS</span>
-            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
-            <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 421 days ago (within the 1095-day heuristic threshold used here).</p>
-            <p><span class="badge pass">PASS</span>
-            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
-            <p><span class="badge pass">PASS</span>
-            <strong>CRS / extent sanity</strong> - Sample extent [-122.525, 47.155, -121.412, 47.775] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
-            <p><span class="badge fail">FAIL</span>
-            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: DATE_ACCURACY (100%), DATE_LASTOBS (100%), DELIN_STAT (100%), WETLAND_TYPE (100%), ACREAGE_ALT (100%).</p>
-            <p><span class="badge pass">PASS</span>
-            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::wetlands-defined-from-critical-area-ordinance-surveys-in-king-county returned HTTP 200.</p>
-        </div>
-        <div class="detail-panel" id="ds-6" hidden>
           <h3>Sensitive Area Ordinance Streams</h3>
           
           <div class="detail-grid">
@@ -437,7 +400,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::sensitive-area-ordinance-streams returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-7" hidden>
+        <div class="detail-panel" id="ds-6" hidden>
           <h3>Rivers and Streams in King County</h3>
           
           <div class="detail-grid">
@@ -468,7 +431,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::rivers-and-streams-in-king-county returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-8" hidden>
+        <div class="detail-panel" id="ds-7" hidden>
           <h3>Roadlog Centerlines owned and maintained by King County Road Services</h3>
           
           <div class="detail-grid">
@@ -499,7 +462,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::roadlog-centerlines-owned-and-maintained-by-king-county-road-services returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-9" hidden>
+        <div class="detail-panel" id="ds-8" hidden>
           <h3>King County Metro Stops</h3>
           
           <div class="detail-grid">
@@ -530,7 +493,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::king-county-metro-stops returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-10" hidden>
+        <div class="detail-panel" id="ds-9" hidden>
           <h3>Fire Station Locations in King County</h3>
           
           <div class="detail-grid">
@@ -561,7 +524,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::fire-station-locations-in-king-county returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-11" hidden>
+        <div class="detail-panel" id="ds-10" hidden>
           <h3>Tree Point Index</h3>
           
           <div class="detail-grid">
@@ -592,7 +555,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::tree-point-index returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-12" hidden>
+        <div class="detail-panel" id="ds-11" hidden>
           <h3>Watershed boundaries derived from terrain data - King County only</h3>
           
           <div class="detail-grid">
@@ -623,7 +586,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::watershed-boundaries-derived-from-terrain-data-king-county-only returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-13" hidden>
+        <div class="detail-panel" id="ds-12" hidden>
           <h3>LCI Opportunity Areas</h3>
           
           <div class="detail-grid">
@@ -654,7 +617,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::lci-opportunity-areas returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-14" hidden>
+        <div class="detail-panel" id="ds-13" hidden>
           <h3>Tree Canopy 2021 - Tree Points</h3>
           <p class="note">Catalog entry points at the service root (80 layers); audited sublayer 94 as a representative sample, not the whole multi-tile family.</p>
           <div class="detail-grid">
@@ -685,7 +648,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/maps/kingcounty::tree-canopy-2021-tree-points returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-15" hidden>
+        <div class="detail-panel" id="ds-14" hidden>
           <h3>t20r11tree point</h3>
           
           <div class="detail-grid">
@@ -716,7 +679,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r11tree-point returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-16" hidden>
+        <div class="detail-panel" id="ds-15" hidden>
           <h3>t20r10tree point</h3>
           
           <div class="detail-grid">
@@ -747,7 +710,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r10tree-point returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-17" hidden>
+        <div class="detail-panel" id="ds-16" hidden>
           <h3>t20r09tree point</h3>
           
           <div class="detail-grid">
