@@ -61,7 +61,7 @@
 <body>
   <h1>King County GIS Open Data - Quality Audit</h1>
   <p class="caption">A rule-based audit of a curated subset of King County's published GIS layers.
-  Last audited: 2026-09-17 03:22 UTC. See the About tab for exactly what's checked and why.</p>
+  Last audited: 2026-09-17 03:28 UTC. See the About tab for exactly what's checked and why.</p>
 
   <div class="tabs">
     <button class="tab-btn active" data-tab="scorecard">Scorecard</button>
@@ -82,22 +82,16 @@
       <thead><tr><th>Dataset</th><th>Geometry type</th><th>Sample size</th><th>Issues flagged</th></tr></thead>
       <tbody>
         <tr>
-          <td>FEMA High Risk Flood Area (100-year Floodplain)</td>
-          <td>esriGeometryPolygon</td>
-          <td>500</td>
-          <td>2</td>
-        </tr>
-        <tr>
           <td>Potential landslide hazard areas 50-foot buffer 2016</td>
           <td>esriGeometryPolygon</td>
           <td>500</td>
           <td>2</td>
         </tr>
         <tr>
-          <td>Parcels with Address Property and Ownership Information (Public)</td>
+          <td>FEMA High Risk Flood Area (100-year Floodplain)</td>
           <td>esriGeometryPolygon</td>
           <td>500</td>
-          <td>1</td>
+          <td>2</td>
         </tr>
         <tr>
           <td>Rivers and Streams in King County</td>
@@ -106,19 +100,7 @@
           <td>1</td>
         </tr>
         <tr>
-          <td>Roadlog Centerlines owned and maintained by King County Road Services</td>
-          <td>esriGeometryPolyline</td>
-          <td>500</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>King County Metro Stops</td>
-          <td>esriGeometryPoint</td>
-          <td>500</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>Wetlands defined from Critical Area Ordinance surveys in King County</td>
+          <td>Parcels with Address Property and Ownership Information (Public)</td>
           <td>esriGeometryPolygon</td>
           <td>500</td>
           <td>1</td>
@@ -130,14 +112,32 @@
           <td>1</td>
         </tr>
         <tr>
-          <td>Sensitive Area Ordinance Streams</td>
+          <td>Wetlands defined from Critical Area Ordinance surveys in King County</td>
+          <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>King County Metro Stops</td>
+          <td>esriGeometryPoint</td>
+          <td>500</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Roadlog Centerlines owned and maintained by King County Road Services</td>
           <td>esriGeometryPolyline</td>
           <td>500</td>
-          <td>0</td>
+          <td>1</td>
         </tr>
         <tr>
           <td>Zoning for Unincorporated King County</td>
           <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>Sensitive Area Ordinance Streams</td>
+          <td>esriGeometryPolyline</td>
           <td>500</td>
           <td>0</td>
         </tr>
@@ -247,7 +247,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>CRS / extent sanity</strong> - Sample extent [-122.410, 47.301, -122.017, 47.726] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
             <p><span class="badge fail">FAIL</span>
-            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: ADDR_PT (100%), ANNEXING_CITY (100%), PAAUNIQUENAME (100%), ALIAS1 (100%), ALIAS2 (100%).</p>
+            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: ADDR_PT (100%), ALIAS2 (100%), PAAUNIQUENAME (100%), ALIAS1 (100%), ANNEXING_CITY (100%).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::parcels-with-address-property-and-ownership-information-public returned HTTP 200.</p>
         </div>
@@ -402,7 +402,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>CRS / extent sanity</strong> - Sample extent [-122.525, 47.155, -121.412, 47.775] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
             <p><span class="badge fail">FAIL</span>
-            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: DATE_ACCURACY (100%), DATE_LASTOBS (100%), DELIN_STAT (100%), WETLAND_TYPE (100%), WETLAND_ATTRIBUTE (100%).</p>
+            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: DATE_ACCURACY (100%), DATE_LASTOBS (100%), DELIN_STAT (100%), WETLAND_TYPE (100%), ACREAGE_ALT (100%).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::wetlands-defined-from-critical-area-ordinance-surveys-in-king-county returned HTTP 200.</p>
         </div>
