@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+.env
+
+# Regeneratable via data/fetch_catalog.py and data/audit_datasets.py
+data/catalog.parquet
+data/audit_results.parquet

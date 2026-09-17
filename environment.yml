@@ -1,0 +1,13 @@
+name: kc-data-quality-audit
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas
+  - geopandas
+  - shapely
+  - requests
+  - pyarrow
+  - streamlit
+  - matplotlib
+  - pip
