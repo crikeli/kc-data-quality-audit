@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>King County GIS Open Data - Quality Audit</title>
+<style>
+  :root {
+    --bg: #ffffff; --ink: #1a1a1a; --muted: #5b5f66; --border: #e2e4e8;
+    --surface: #f6f7f9; --accent: #2a78d6; --pass: #1baf7a; --fail: #e34948;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117; --ink: #e6e8eb; --muted: #9aa1ab; --border: #2a2e35;
+      --surface: #161a21; --accent: #4f9bf0; --pass: #2fd191; --fail: #ff6b66;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px clamp(16px, 4vw, 48px) 64px; background: var(--bg);
+    color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  h1 { margin-bottom: 4px; }
+  .caption { color: var(--muted); margin-top: 0; }
+  .tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border); margin: 20px 0 24px; flex-wrap: wrap; }
+  .tab-btn {
+    background: none; border: none; padding: 10px 4px; margin-right: 20px; font-size: 15px;
+    color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+  }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .metrics { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 24px; }
+  .metric-value { font-size: 32px; font-weight: 700; }
+  .metric-label { color: var(--muted); font-size: 13px; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 480px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+  th { color: var(--muted); font-weight: 600; background: var(--surface); }
+  .bar-chart { max-width: 640px; }
+  .bar-row { display: grid; grid-template-columns: 160px 1fr 32px; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .bar-label { font-size: 13px; color: var(--muted); text-align: right; }
+  .bar-track { background: var(--surface); border-radius: 3px; height: 18px; overflow: hidden; }
+  .bar-fill { background: var(--accent); height: 100%; border-radius: 3px 0 0 3px; }
+  .bar-value { font-size: 13px; color: var(--muted); }
+  select {
+    font-size: 14px; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--ink); width: 100%; max-width: 520px; margin-bottom: 20px;
+  }
+  .detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+  @media (max-width: 640px) { .detail-grid { grid-template-columns: 1fr; } .bar-row { grid-template-columns: 100px 1fr 28px; } }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.03em; padding: 2px 6px; border-radius: 4px; margin-right: 6px; }
+  .badge.pass { background: color-mix(in srgb, var(--pass) 20%, transparent); color: var(--pass); }
+  .badge.fail { background: color-mix(in srgb, var(--fail) 20%, transparent); color: var(--fail); }
+  .note { background: var(--surface); border-radius: 6px; padding: 10px 14px; font-size: 14px; }
+  code { background: var(--surface); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+  <h1>King County GIS Open Data - Quality Audit</h1>
+  <p class="caption">A rule-based audit of a curated subset of King County's published GIS layers.
+  Last audited: 2026-09-17 03:22 UTC. See the About tab for exactly what's checked and why.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="scorecard">Scorecard</button>
+    <button class="tab-btn" data-tab="detail">Dataset Detail</button>
+    <button class="tab-btn" data-tab="about">About</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-scorecard">
+    <div class="metrics">
+      <div class="metric"><div class="metric-value">18</div><div class="metric-label">Datasets audited</div></div>
+      <div class="metric"><div class="metric-value">10</div><div class="metric-label">Clean (0 issues flagged)</div></div>
+      <div class="metric"><div class="metric-value">8</div><div class="metric-label">With at least 1 issue flagged</div></div>
+    </div>
+
+    <h2>Datasets ranked by issues flagged</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Dataset</th><th>Geometry type</th><th>Sample size</th><th>Issues flagged</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>FEMA High Risk Flood Area (100-year Floodplain)</td>
+          <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>Potential landslide hazard areas 50-foot buffer 2016</td>
+          <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>Parcels with Address Property and Ownership Information (Public)</td>
+          <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Rivers and Streams in King County</td>
+          <td>esriGeometryPolyline</td>
+          <td>500</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Roadlog Centerlines owned and maintained by King County Road Services</td>
+          <td>esriGeometryPolyline</td>
+          <td>500</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>King County Metro Stops</td>
+          <td>esriGeometryPoint</td>
+          <td>500</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Wetlands defined from Critical Area Ordinance surveys in King County</td>
+          <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Comprehensive Plan Land Use</td>
+          <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Sensitive Area Ordinance Streams</td>
+          <td>esriGeometryPolyline</td>
+          <td>500</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>Zoning for Unincorporated King County</td>
+          <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>Fire Station Locations in King County</td>
+          <td>esriGeometryPoint</td>
+          <td>155</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>Tree Point Index</td>
+          <td>esriGeometryPolygon</td>
+          <td>79</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>Watershed boundaries derived from terrain data - King County only</td>
+          <td>esriGeometryPolygon</td>
+          <td>11</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>LCI Opportunity Areas</td>
+          <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>Tree Canopy 2021 - Tree Points</td>
+          <td>esriGeometryPolygon</td>
+          <td>79</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>t20r11tree point</td>
+          <td>esriGeometryPoint</td>
+          <td>500</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>t20r10tree point</td>
+          <td>esriGeometryPoint</td>
+          <td>500</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>t20r09tree point</td>
+          <td>esriGeometryPoint</td>
+          <td>500</td>
+          <td>0</td>
+        </tr></tbody>
+    </table>
+    </div>
+
+    <h2>How often each check fails</h2>
+    <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">Freshness</div>
+          <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
+          <div class="bar-value">1</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Geometry validity</div>
+          <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+          <div class="bar-value">4</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Attribute null rates</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+          <div class="bar-value">5</div>
+        </div></div>
+
+    <h2>Cross-dataset family consistency</h2>
+    
+        <p><span class="badge fail">FAIL</span>
+        <strong>FAMILY: tree_canopy_tiles</strong> - Tree Canopy 2021 - Tree Points has extra/differently-named fields: [&#x27;Shape__Area&#x27;, &#x27;Shape__Length&#x27;, &#x27;TreeTile&#x27;] | t20r11tree point has extra/differently-named fields: [&#x27;Height&#x27;, &#x27;Intensity&#x27;, &#x27;NDVI&#x27;] | t20r10tree point has extra/differently-named fields: [&#x27;Height&#x27;, &#x27;Intensity&#x27;, &#x27;NDVI&#x27;] | t20r09tree point has extra/differently-named fields: [&#x27;Height&#x27;, &#x27;Intensity&#x27;, &#x27;NDVI&#x27;]</p>
+    </div>
+
+  <div class="tab-panel" id="tab-detail">
+    <label for="dataset-select"><strong>Choose a dataset</strong></label><br>
+    <select id="dataset-select"><option value="ds-0" selected>Parcels with Address Property and Ownership Information (Public)</option><option value="ds-1">Zoning for Unincorporated King County</option><option value="ds-2">Comprehensive Plan Land Use</option><option value="ds-3">FEMA High Risk Flood Area (100-year Floodplain)</option><option value="ds-4">Potential landslide hazard areas 50-foot buffer 2016</option><option value="ds-5">Wetlands defined from Critical Area Ordinance surveys in King County</option><option value="ds-6">Sensitive Area Ordinance Streams</option><option value="ds-7">Rivers and Streams in King County</option><option value="ds-8">Roadlog Centerlines owned and maintained by King County Road Services</option><option value="ds-9">King County Metro Stops</option><option value="ds-10">Fire Station Locations in King County</option><option value="ds-11">Tree Point Index</option><option value="ds-12">Watershed boundaries derived from terrain data - King County only</option><option value="ds-13">LCI Opportunity Areas</option><option value="ds-14">Tree Canopy 2021 - Tree Points</option><option value="ds-15">t20r11tree point</option><option value="ds-16">t20r10tree point</option><option value="ds-17">t20r09tree point</option></select>
+    
+        <div class="detail-panel" id="ds-0">
+          <h3>Parcels with Address Property and Ownership Information (Public)</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.A parcel based layer providing an address based on spatial overlay where available, and a range of other property related attributes. A single address is assigned to each parcel record (based solely on what is determined as a primary address for a parcel in address_point).</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 69</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2026-09-16T15:48:54.815Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::parcels-with-address-property-and-ownership-information-public" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/PARCEL_ADDRESS_PUB_AREA_3069/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 0 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.410, 47.301, -122.017, 47.726] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: ADDR_PT (100%), ANNEXING_CITY (100%), PAAUNIQUENAME (100%), ALIAS1 (100%), ALIAS2 (100%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::parcels-with-address-property-and-ownership-information-public returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-1" hidden>
+          <h3>Zoning for Unincorporated King County</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.The most recent parcel-based zoning polygons with their designations within unincorporated areas of King County. The features are defined by official King County zoning ordinances in reference to parcels, cities, and other property data maintained by King County Department of Assessments. Current and potential zoning designation are provided including development condition suffixes. Detailed information about the significance of these suffixed is available in the Development Conditions layer. This layer was originally created from generalized tax parcel mapping done as part of the 1994 King County Comprehensive Plan.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 8</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2026-08-05T11:57:03.935Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::zoning-for-unincorporated-king-county" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/ZONING_AREA_450/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 42 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.520, 47.160, -121.387, 47.775] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::zoning-for-unincorporated-king-county returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-2" hidden>
+          <h3>Comprehensive Plan Land Use</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.A comprehensive plan is a generalized; coordinated land use policy statement of the governing body of a county or city that is adopted pursuant to the Washington State Growth Management Act. The CPLU designations are defined in the King County Comprehensive Plan and so designated in order to implement the plan&#x27;s land use policies. All incorporated areas are purged from the published layer as King County does not have planning jurisdiction in those areas. CPLU designation boundaries are tied to cadastral features. When cadastral features are adjusted to improve positional accuracy the CPLU boundaries must also be adjusted.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 6</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-11-26T12:53:14.777Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::comprehensive-plan-land-use-1" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/COMPLU_AREA_129/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 294 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 11/500 of the remaining have invalid (e.g. self-intersecting) geometry (2%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.528, 47.085, -121.088, 47.780] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::comprehensive-plan-land-use-1 returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-3" hidden>
+          <h3>FEMA High Risk Flood Area (100-year Floodplain)</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.100 year floodplain are areas that will be inundated by the flood event having a 1-percent chance of being equaled or exceeded in any given year, derived from FEMA Flood Insurance Rate Maps.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 10</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-07-31T21:07:34.016Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::fema-high-risk-flood-area-100-year-floodplain" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/FEMA_FLOODPLAIN_100YR_AREA_2853/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 412 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 1/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.530, 47.119, -121.517, 47.742] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: FLOODWAY (96%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::fema-high-risk-flood-area-100-year-floodplain returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-4" hidden>
+          <h3>Potential landslide hazard areas 50-foot buffer 2016</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.Portion of unincorporated King County within 50 feet of identified potential landslide hazard areas as identified in 2016. Please view associated documents. https://kingcounty.maps.arcgis.com/home/item.html?id=1bc87f72a8b046e4ac8fce3a7675998d#overview - DISCLAIMER – Potential Landslide Hazard Areas. https://kingcounty.maps.arcgis.com/home/item.html?id=2b4cb9f075154ba2916a22370b3aa535#overview - REPORT – Potential Landslide Hazard Areas.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 4</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2026-03-10T18:34:36.621Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/27b690919fee4fef96390815298e95a4_0" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/LANDSLIDE_BUFFER_AREA_2529/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 190 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 3/500 of the remaining have invalid (e.g. self-intersecting) geometry (1%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.527, 47.138, -121.613, 47.378] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: EDM_Test (100%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/27b690919fee4fef96390815298e95a4_0 returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-5" hidden>
+          <h3>Wetlands defined from Critical Area Ordinance surveys in King County</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.Documented wetlands in King County; WA. Attributes include the date captured and other details for each feature. Some features document only a portion of a larger wetland in the landscape. This represents only a small portion of all wetlands in King County.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 24</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-07-23T00:04:31.623Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::wetlands-defined-from-critical-area-ordinance-surveys-in-king-county" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/WETLANDS_AREA_2063/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 421 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.525, 47.155, -121.412, 47.775] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: DATE_ACCURACY (100%), DATE_LASTOBS (100%), DELIN_STAT (100%), WETLAND_TYPE (100%), WETLAND_ATTRIBUTE (100%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::wetlands-defined-from-critical-area-ordinance-surveys-in-king-county returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-6" hidden>
+          <h3>Sensitive Area Ordinance Streams</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.Streams are defined in the Sensitive Areas Ordinance (SAO) as those areas of King County where surface waters produce a defined channel or bed. A defined channel or bed is an area that demonstrates clear evidence of the passage of water and includes but is not limited to bedrock channels, gravel beds, sand and silt beds and defined-channel swales. The channel or bed need not contain water year-round. This definition is not meant to include irrigation ditches, canals, storm or surface water runoff devices or other entirely artificial watercourses unless they are used by salmonids or used to convey streams naturally occurring prior to construction in such watercourse.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolyline</p>
+              <p><strong>Field count:</strong> 5</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-07-22T23:09:10.229Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::sensitive-area-ordinance-streams" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/SAOSTREAM_LINE_180/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 421 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.400, 47.624, -121.679, 47.779] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::sensitive-area-ordinance-streams returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-7" hidden>
+          <h3>Rivers and Streams in King County</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.Streams of King County and surrounding area</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolyline</p>
+              <p><strong>Field count:</strong> 12</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2017-01-26T00:00:00.000Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::rivers-and-streams-in-king-county" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/WTRCRS_LINE_176/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Freshness</strong> - Last modified 3521 days ago (beyond the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.058, 47.242, -121.186, 47.971] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::rivers-and-streams-in-king-county returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-8" hidden>
+          <h3>Roadlog Centerlines owned and maintained by King County Road Services</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.Unincorporated, public owned street centerlines</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolyline</p>
+              <p><strong>Field count:</strong> 2</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-12-04T13:33:52.027Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::roadlog-centerlines-owned-and-maintained-by-king-county-road-services" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/ROADLOG_LINE_1726/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 286 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Geometry validity</strong> - 5/500 sampled records have null geometry (1%); 0/495 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.370, 47.257, -121.974, 47.518] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::roadlog-centerlines-owned-and-maintained-by-king-county-road-services returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-9" hidden>
+          <h3>King County Metro Stops</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.On-street location where transit vehicles stop inline to pick-up and discharge passengers. It has a sign and basic service information; sometimes also a shelter with benches.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPoint</p>
+              <p><strong>Field count:</strong> 56</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2026-09-16T14:23:00.081Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::king-county-metro-stops" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/TRANSITSTOP_POINT_2648/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 0 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.403, 47.202, -121.987, 47.747] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: IMT_CONNECTORLIST (100%), BAY_CODE (97%), ROUTE_LIST (55%), SIGN_MOUNTING_DIR (22%), FRDOORSIDEWALKWIDTH (21%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::king-county-metro-stops returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-10" hidden>
+          <h3>Fire Station Locations in King County</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.Point location of fire stations in King County</p>
+              <p><strong>Geometry type:</strong> esriGeometryPoint</p>
+              <p><strong>Field count:</strong> 15</p>
+              <p><strong>Sampled records checked:</strong> 155</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-07-23T00:05:56.486Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::fire-station-locations-in-king-county" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/FIRESTN_POINT_98/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 421 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/155 sampled records have null geometry (0%); 0/155 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.467, 47.203, -121.361, 47.800] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::fire-station-locations-in-king-county returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-11" hidden>
+          <h3>Tree Point Index</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>This layer provides an approximate inventory of tree center points for King County in 2021. Tree points were derived through an automated process using 2021 lidar, Ecopia land cover, and NAIP imagery. This layer provides an estimate of tree location and tree height from lidar, tree type (evergreen vs decidious) from lidar intensity, and vegetation health from imagery using NDVI.The points in this layer have not been QA/QC&#x27;d or field verified. This layer is not as accurate as a ground inventory would be. However, there are ~101,000,000 trees in King County, so this analysis provides a feasible approximation of tree location and density at a fraction of the cost and effort. Because there are so many features, the layer has been split into tiles of about 1 - 2 million points. Use the Tree Point Index polygon layer to identify which tiles you need to cover your area of interest. All tree point features are turned on by default, but restricted to a max of 1:10,000 scale for visibility. If you don&#x27;t see tree points when you load this layer, zoom in further and wait a few seconds for the layer to render. To improve performance, turn off tree point tile layers you don&#x27;t need.For detailed information on how this layer was derived, please see the History of Building- Vegetation Height, &amp; Tree Canopy at King County storymap.For lidar intensity values, 0-120 = Deciduous, 120-200 = Conifer, 200-255 = Other. This is an estimated range.NDVI values range from -1 to 1, with values closer to 1 indicating lush green vegetation.Tree height is measured in feet above the bare earth DEM. A “tree” in this layer is any vegetation taller than 10 feet.  No updates are planned for this layer.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 4</p>
+              <p><strong>Sampled records checked:</strong> 79</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-10-17T20:01:38.176Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::tree-point-index" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/Tree_Canopy_2021_Tree_Points__forrealthistime/FeatureServer/94" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 334 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/79 sampled records have null geometry (0%); 0/79 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.553, 47.080, -121.069, 47.795] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::tree-point-index returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-12" hidden>
+          <h3>Watershed boundaries derived from terrain data - King County only</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.A delineation of large rivers basins in Washington State. Areas that directly drain to the Puget sound but are not part of a river basin are grouped together based on adjacency to a river basin boundary. Delineations among this layer should group within defined WRIAs. A watershed is comprised of multiple basins.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 6</p>
+              <p><strong>Sampled records checked:</strong> 11</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2026-04-01T12:05:46.534Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::watershed-boundaries-derived-from-terrain-data-king-county-only" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/TOPO_WATERSHED_KC_AREA_345/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 168 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/11 sampled records have null geometry (0%); 0/11 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.528, 47.085, -121.066, 47.781] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::watershed-boundaries-derived-from-terrain-data-king-county-only returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-13" hidden>
+          <h3>LCI Opportunity Areas</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.This is the subset of parcels that meet all three of the following &quot;specified criteria&quot; in the King County code 26.12.003J definition of &quot;Opportunity Areas&quot;. Areas within King County that:(a) &quot;are located in a census tract in which the median household income is in the lowest one-third for median household income for census tracts in King County;(b) &quot;are located in a ZIP code in which hospitalization rates for asthma, diabetes, and heart disease are in the highest one-third for ZIP codes in King County; and(c) &quot;are within the Urban Growth Boundary and do not have a publicly owned and accessible park or open space within one-quarter mile of a residence, or are outside the Urban Growth Boundary and do not have a publicly owned and accessible park or open space within two miles of a residence.&quot; (King County Code 26.12.003J)</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 4</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-07-15T22:19:28.905Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::lci-opportunity-areas" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/LCI_OPPORTUNITY_PARCEL_AREA_2864/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 428 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.297, 47.308, -122.208, 47.518] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::lci-opportunity-areas returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-14" hidden>
+          <h3>Tree Canopy 2021 - Tree Points</h3>
+          <p class="note">Catalog entry points at the service root (80 layers); audited sublayer 94 as a representative sample, not the whole multi-tile family.</p>
+          <div class="detail-grid">
+            <div>
+              <p>This layer provides an approximate inventory of tree center points for King County in 2021. Tree points were derived through an automated process using 2021 lidar, Ecopia land cover, and NAIP imagery. This layer provides an estimate of tree location and tree height from lidar, tree type (evergreen vs decidious) from lidar intensity, and vegetation health from imagery using NDVI.The points in this layer have not been QA/QC&#x27;d or field verified. This layer is not as accurate as a ground inventory would be. However, there are ~101,000,000 trees in King County, so this analysis provides a feasible approximation of tree location and density at a fraction of the cost and effort. Because there are so many features, the layer has been split into tiles of about 1 - 2 million points. Use the Tree Point Index polygon layer to identify which tiles you need to cover your area of interest. All tree point features are turned on by default, but restricted to a max of 1:10,000 scale for visibility. If you don&#x27;t see tree points when you load this layer, zoom in further and wait a few seconds for the layer to render. To improve performance, turn off tree point tile layers you don&#x27;t need.For detailed information on how this layer was derived, please see the History of Building- Vegetation Height, &amp; Tree Canopy at King County storymap.For lidar intensity values, 0-120 = Deciduous, 120-200 = Conifer, 200-255 = Other. This is an estimated range.NDVI values range from -1 to 1, with values closer to 1 indicating lush green vegetation.Tree height is measured in feet above the bare earth DEM. A “tree” in this layer is any vegetation taller than 10 feet.  No updates are planned for this layer.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 4</p>
+              <p><strong>Sampled records checked:</strong> 79</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2026-08-03T21:09:52.000Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/maps/kingcounty::tree-canopy-2021-tree-points" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/Tree_Canopy_2021_Tree_Points__forrealthistime/FeatureServer/94" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 44 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/79 sampled records have null geometry (0%); 0/79 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.553, 47.080, -121.069, 47.795] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/maps/kingcounty::tree-canopy-2021-tree-points returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-15" hidden>
+          <h3>t20r11tree point</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>This layer provides an approximate inventory of tree center points for King County in 2021. Tree points were derived through an automated process using 2021 lidar, Ecopia land cover, and NAIP imagery. This layer provides an estimate of tree location and tree height from lidar, tree type (evergreen vs decidious) from lidar intensity, and vegetation health from imagery using NDVI.The points in this layer have not been QA/QC&#x27;d or field verified. This layer is not as accurate as a ground inventory would be. However, there are ~101,000,000 trees in King County, so this analysis provides a feasible approximation of tree location and density at a fraction of the cost and effort. Because there are so many features, the layer has been split into tiles of about 1 - 2 million points. Use the Tree Point Index polygon layer to identify which tiles you need to cover your area of interest. All tree point features are turned on by default, but restricted to a max of 1:10,000 scale for visibility. If you don&#x27;t see tree points when you load this layer, zoom in further and wait a few seconds for the layer to render. To improve performance, turn off tree point tile layers you don&#x27;t need.For detailed information on how this layer was derived, please see the History of Building- Vegetation Height, &amp; Tree Canopy at King County storymap.For lidar intensity values, 0-120 = Deciduous, 120-200 = Conifer, 200-255 = Other. This is an estimated range.NDVI values range from -1 to 1, with values closer to 1 indicating lush green vegetation.Tree height is measured in feet above the bare earth DEM. A “tree” in this layer is any vegetation taller than 10 feet.  No updates are planned for this layer.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPoint</p>
+              <p><strong>Field count:</strong> 4</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-10-17T20:51:57.972Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r11tree-point" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/Tree_Canopy_2021_Tree_Points__forrealthistime/FeatureServer/65" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 334 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-121.458, 47.170, -121.448, 47.170] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r11tree-point returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-16" hidden>
+          <h3>t20r10tree point</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>This layer provides an approximate inventory of tree center points for King County in 2021. Tree points were derived through an automated process using 2021 lidar, Ecopia land cover, and NAIP imagery. This layer provides an estimate of tree location and tree height from lidar, tree type (evergreen vs decidious) from lidar intensity, and vegetation health from imagery using NDVI.The points in this layer have not been QA/QC&#x27;d or field verified. This layer is not as accurate as a ground inventory would be. However, there are ~101,000,000 trees in King County, so this analysis provides a feasible approximation of tree location and density at a fraction of the cost and effort. Because there are so many features, the layer has been split into tiles of about 1 - 2 million points. Use the Tree Point Index polygon layer to identify which tiles you need to cover your area of interest. All tree point features are turned on by default, but restricted to a max of 1:10,000 scale for visibility. If you don&#x27;t see tree points when you load this layer, zoom in further and wait a few seconds for the layer to render. To improve performance, turn off tree point tile layers you don&#x27;t need.For detailed information on how this layer was derived, please see the History of Building- Vegetation Height, &amp; Tree Canopy at King County storymap.For lidar intensity values, 0-120 = Deciduous, 120-200 = Conifer, 200-255 = Other. This is an estimated range.NDVI values range from -1 to 1, with values closer to 1 indicating lush green vegetation.Tree height is measured in feet above the bare earth DEM. A “tree” in this layer is any vegetation taller than 10 feet.  No updates are planned for this layer.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPoint</p>
+              <p><strong>Field count:</strong> 4</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-10-17T20:53:39.262Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r10tree-point" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/Tree_Canopy_2021_Tree_Points__forrealthistime/FeatureServer/66" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 334 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-121.579, 47.169, -121.568, 47.169] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r10tree-point returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-17" hidden>
+          <h3>t20r09tree point</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>This layer provides an approximate inventory of tree center points for King County in 2021. Tree points were derived through an automated process using 2021 lidar, Ecopia land cover, and NAIP imagery. This layer provides an estimate of tree location and tree height from lidar, tree type (evergreen vs decidious) from lidar intensity, and vegetation health from imagery using NDVI.The points in this layer have not been QA/QC&#x27;d or field verified. This layer is not as accurate as a ground inventory would be. However, there are ~101,000,000 trees in King County, so this analysis provides a feasible approximation of tree location and density at a fraction of the cost and effort. Because there are so many features, the layer has been split into tiles of about 1 - 2 million points. Use the Tree Point Index polygon layer to identify which tiles you need to cover your area of interest. All tree point features are turned on by default, but restricted to a max of 1:10,000 scale for visibility. If you don&#x27;t see tree points when you load this layer, zoom in further and wait a few seconds for the layer to render. To improve performance, turn off tree point tile layers you don&#x27;t need.For detailed information on how this layer was derived, please see the History of Building- Vegetation Height, &amp; Tree Canopy at King County storymap.For lidar intensity values, 0-120 = Deciduous, 120-200 = Conifer, 200-255 = Other. This is an estimated range.NDVI values range from -1 to 1, with values closer to 1 indicating lush green vegetation.Tree height is measured in feet above the bare earth DEM. A “tree” in this layer is any vegetation taller than 10 feet.  No updates are planned for this layer.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPoint</p>
+              <p><strong>Field count:</strong> 4</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2025-10-17T20:56:15.467Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r09tree-point" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/Tree_Canopy_2021_Tree_Points__forrealthistime/FeatureServer/67" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 334 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-121.729, 47.167, -121.720, 47.168] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r09tree-point returned HTTP 200.</p>
+        </div>
+  </div>
+
+  <div class="tab-panel" id="tab-about">
+<h2>Methodology</h2>
+<p>This tool audits a <strong>curated subset</strong> of King County's GIS
+Open Data portal (<code>gis-kingcounty.opendata.arcgis.com</code>) - not
+the full catalog of several hundred datasets. The subset spans different
+geometry types (polygon/line/point), publishing patterns (a single layer
+vs. a tiled family of layers), and a mix of infrastructure, hazard, and
+environmental data.</p>
+
+<p><strong>Where the data comes from:</strong></p>
+<ul>
+  <li>Portal-wide metadata: King County's own
+    <a href="https://gis-kingcounty.opendata.arcgis.com/api/feed/dcat-us/1.1.json" target="_blank" rel="noopener">DCAT-US 1.1 catalog feed</a>
+    (<code>data/fetch_catalog.py</code>) - a standard, publicly documented
+    open-data format, no authentication required.</li>
+  <li>Per-dataset checks: each target dataset's own ArcGIS FeatureServer
+    REST endpoint (<code>data/audit_datasets.py</code>), throttled to 1
+    request/second and limited to a <strong>bounded sample</strong> (up to
+    500 records, or the service's own <code>maxRecordCount</code> if
+    smaller) - never a full download.</li>
+</ul>
+
+<p><strong>Checks run</strong> (all deterministic, no LLM involved - see
+<code>data/checks.py</code>): Metadata completeness, Freshness, Geometry
+validity, CRS / extent sanity, Attribute null rates, Hub link alive.</p>
+
+<p><strong>How this page stays current:</strong> a scheduled GitHub Actions
+workflow (<code>.github/workflows/refresh-audit.yml</code>) re-runs the
+fetch and audit scripts daily and republishes this page - see the "Last
+audited" timestamp at the top.</p>
+
+<p><strong>Known limitations:</strong></p>
+<ul>
+  <li>This is a curated subset (~18 datasets), not the full portal - a
+    production version would need the checks engine hardened against far
+    more schema variety before running unattended across everything King
+    County publishes.</li>
+  <li>Data-level checks run on a bounded sample, not the full dataset.</li>
+  <li>Freshness and null-rate thresholds are simple fixed heuristics, not
+    an official data-quality standard - they surface candidates worth a
+    human look, not certified findings.</li>
+  <li>The CRS/extent sanity check is a rough King County bounding-box
+    proxy, not an exact spatial-containment check.</li>
+</ul>
+
+<p><strong>Sources & links:</strong></p>
+<ul>
+  <li><a href="https://gis-kingcounty.opendata.arcgis.com/" target="_blank" rel="noopener">King County GIS Open Data Portal</a></li>
+  <li><a href="https://gis-kingcounty.opendata.arcgis.com/api/feed/dcat-us/1.1.json" target="_blank" rel="noopener">DCAT-US catalog feed</a></li>
+  <li><a href="https://kingcounty.gov/en/dept/kcit/data-information-services/gis-center/about/terms-conditions-copyrights" target="_blank" rel="noopener">King County GIS terms of use</a></li>
+  <li><a href="https://github.com/crikeli/kc-data-quality-audit" target="_blank" rel="noopener">Source code on GitHub</a></li>
+</ul>
+</div>
+
+<script>
+  document.querySelectorAll(".tab-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll(".tab-btn").forEach(function (b) { b.classList.remove("active"); });
+      document.querySelectorAll(".tab-panel").forEach(function (p) { p.classList.remove("active"); });
+      btn.classList.add("active");
+      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+    });
+  });
+  document.getElementById("dataset-select").addEventListener("change", function (e) {
+    document.querySelectorAll(".detail-panel").forEach(function (p) { p.hidden = true; });
+    document.getElementById(e.target.value).hidden = false;
+  });
+</script>
+</body>
+</html>

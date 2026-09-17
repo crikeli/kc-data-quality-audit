@@ -1,0 +1,49 @@
+name: Refresh audit
+
+on:
+  schedule:
+    # 13:00 UTC daily (~5-6am Pacific). One controlled batch run/day against
+    # King County's REST APIs, throttled at 1 req/sec inside audit_datasets.py -
+    # not a live re-check on every site visit. See README/About tab.
+    - cron: "0 13 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "data/**"
+      - ".github/workflows/refresh-audit.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas geopandas shapely requests pyarrow
+
+      - name: Fetch catalog
+        run: python data/fetch_catalog.py
+
+      - name: Run audit (full refresh)
+        run: python data/audit_datasets.py --force
+
+      - name: Build static site
+        run: python data/build_static_site.py
+
+      - name: Commit and push if docs/index.html changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/index.html
+          git diff --cached --quiet && echo "No changes to publish." || (
+            git commit -m "Automated daily audit refresh"
+            git push
+          )
