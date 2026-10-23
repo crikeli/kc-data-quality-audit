@@ -61,7 +61,7 @@
 <body>
   <h1>King County GIS Open Data - Quality Audit</h1>
   <p class="caption">A rule-based audit of a curated subset of King County's published GIS layers.
-  Last audited: 2026-10-22 17:46 UTC. See the About tab for exactly what's checked and why.</p>
+  Last audited: 2026-10-23 17:38 UTC. See the About tab for exactly what's checked and why.</p>
 
   <div class="tabs">
     <button class="tab-btn active" data-tab="scorecard">Scorecard</button>
@@ -71,9 +71,9 @@
 
   <div class="tab-panel active" id="tab-scorecard">
     <div class="metrics">
-      <div class="metric"><div class="metric-value">17</div><div class="metric-label">Datasets audited</div></div>
+      <div class="metric"><div class="metric-value">18</div><div class="metric-label">Datasets audited</div></div>
       <div class="metric"><div class="metric-value">10</div><div class="metric-label">Clean (0 issues flagged)</div></div>
-      <div class="metric"><div class="metric-value">7</div><div class="metric-label">With at least 1 issue flagged</div></div>
+      <div class="metric"><div class="metric-value">8</div><div class="metric-label">With at least 1 issue flagged</div></div>
     </div>
 
     <h2>Datasets ranked by issues flagged</h2>
@@ -82,16 +82,22 @@
       <thead><tr><th>Dataset</th><th>Geometry type</th><th>Sample size</th><th>Issues flagged</th></tr></thead>
       <tbody>
         <tr>
+          <td>Potential landslide hazard areas 50-foot buffer 2016</td>
+          <td>esriGeometryPolygon</td>
+          <td>500</td>
+          <td>2</td>
+        </tr>
+        <tr>
           <td>FEMA High Risk Flood Area (100-year Floodplain)</td>
           <td>esriGeometryPolygon</td>
           <td>500</td>
           <td>2</td>
         </tr>
         <tr>
-          <td>Potential landslide hazard areas 50-foot buffer 2016</td>
-          <td>esriGeometryPolygon</td>
+          <td>Rivers and Streams in King County</td>
+          <td>esriGeometryPolyline</td>
           <td>500</td>
-          <td>2</td>
+          <td>1</td>
         </tr>
         <tr>
           <td>Parcels with Address Property and Ownership Information (Public)</td>
@@ -100,14 +106,14 @@
           <td>1</td>
         </tr>
         <tr>
-          <td>Wetlands defined from Critical Area Ordinance surveys in King County</td>
+          <td>Comprehensive Plan Land Use</td>
           <td>esriGeometryPolygon</td>
           <td>500</td>
           <td>1</td>
         </tr>
         <tr>
-          <td>Rivers and Streams in King County</td>
-          <td>esriGeometryPolyline</td>
+          <td>Wetlands defined from Critical Area Ordinance surveys in King County</td>
+          <td>esriGeometryPolygon</td>
           <td>500</td>
           <td>1</td>
         </tr>
@@ -195,8 +201,8 @@
         </div>
         <div class="bar-row">
           <div class="bar-label">Geometry validity</div>
-          <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
-          <div class="bar-value">3</div>
+          <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+          <div class="bar-value">4</div>
         </div>
         <div class="bar-row">
           <div class="bar-label">Attribute null rates</div>
@@ -212,7 +218,7 @@
 
   <div class="tab-panel" id="tab-detail">
     <label for="dataset-select"><strong>Choose a dataset</strong></label><br>
-    <select id="dataset-select"><option value="ds-0" selected>Parcels with Address Property and Ownership Information (Public)</option><option value="ds-1">Zoning for Unincorporated King County</option><option value="ds-2">FEMA High Risk Flood Area (100-year Floodplain)</option><option value="ds-3">Potential landslide hazard areas 50-foot buffer 2016</option><option value="ds-4">Wetlands defined from Critical Area Ordinance surveys in King County</option><option value="ds-5">Sensitive Area Ordinance Streams</option><option value="ds-6">Rivers and Streams in King County</option><option value="ds-7">Roadlog Centerlines owned and maintained by King County Road Services</option><option value="ds-8">King County Metro Stops</option><option value="ds-9">Fire Station Locations in King County</option><option value="ds-10">Tree Point Index</option><option value="ds-11">Watershed boundaries derived from terrain data - King County only</option><option value="ds-12">LCI Opportunity Areas</option><option value="ds-13">Tree Canopy 2021 - Tree Points</option><option value="ds-14">t20r11tree point</option><option value="ds-15">t20r10tree point</option><option value="ds-16">t20r09tree point</option></select>
+    <select id="dataset-select"><option value="ds-0" selected>Parcels with Address Property and Ownership Information (Public)</option><option value="ds-1">Zoning for Unincorporated King County</option><option value="ds-2">Comprehensive Plan Land Use</option><option value="ds-3">FEMA High Risk Flood Area (100-year Floodplain)</option><option value="ds-4">Potential landslide hazard areas 50-foot buffer 2016</option><option value="ds-5">Wetlands defined from Critical Area Ordinance surveys in King County</option><option value="ds-6">Sensitive Area Ordinance Streams</option><option value="ds-7">Rivers and Streams in King County</option><option value="ds-8">Roadlog Centerlines owned and maintained by King County Road Services</option><option value="ds-9">King County Metro Stops</option><option value="ds-10">Fire Station Locations in King County</option><option value="ds-11">Tree Point Index</option><option value="ds-12">Watershed boundaries derived from terrain data - King County only</option><option value="ds-13">LCI Opportunity Areas</option><option value="ds-14">Tree Canopy 2021 - Tree Points</option><option value="ds-15">t20r11tree point</option><option value="ds-16">t20r10tree point</option><option value="ds-17">t20r09tree point</option></select>
     
         <div class="detail-panel" id="ds-0">
           <h3>Parcels with Address Property and Ownership Information (Public)</h3>
@@ -235,7 +241,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 0 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 1 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -266,7 +272,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 7 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 8 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -277,6 +283,37 @@
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::zoning-for-unincorporated-king-county returned HTTP 200.</p>
         </div>
         <div class="detail-panel" id="ds-2" hidden>
+          <h3>Comprehensive Plan Land Use</h3>
+          
+          <div class="detail-grid">
+            <div>
+              <p>For more information about this layer please see the GIS Data Catalog.A comprehensive plan is a generalized; coordinated land use policy statement of the governing body of a county or city that is adopted pursuant to the Washington State Growth Management Act. The CPLU designations are defined in the King County Comprehensive Plan and so designated in order to implement the plan&#x27;s land use policies. All incorporated areas are purged from the published layer as King County does not have planning jurisdiction in those areas. CPLU designation boundaries are tied to cadastral features. When cadastral features are adjusted to improve positional accuracy the CPLU boundaries must also be adjusted.</p>
+              <p><strong>Geometry type:</strong> esriGeometryPolygon</p>
+              <p><strong>Field count:</strong> 6</p>
+              <p><strong>Sampled records checked:</strong> 500</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2026-10-14T19:14:47.006Z</p>
+            </div>
+            <div>
+              <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::comprehensive-plan-land-use-1" target="_blank" rel="noopener">Open on King County Hub</a></p>
+              <p><a href="https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/COMPLU_AREA_129/FeatureServer/0" target="_blank" rel="noopener">Raw FeatureServer layer</a></p>
+            </div>
+          </div>
+          <h4>Checks</h4>
+          
+            <p><span class="badge pass">PASS</span>
+            <strong>Metadata completeness</strong> - All core metadata fields present.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Freshness</strong> - Last modified 8 days ago (within the 1095-day heuristic threshold used here).</p>
+            <p><span class="badge fail">FAIL</span>
+            <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 11/500 of the remaining have invalid (e.g. self-intersecting) geometry (2%).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.528, 47.085, -121.088, 47.780] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Attribute null rates</strong> - No attribute field exceeds the 20% null-rate threshold.</p>
+            <p><span class="badge pass">PASS</span>
+            <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::comprehensive-plan-land-use-1 returned HTTP 200.</p>
+        </div>
+        <div class="detail-panel" id="ds-3" hidden>
           <h3>FEMA High Risk Flood Area (100-year Floodplain)</h3>
           
           <div class="detail-grid">
@@ -297,7 +334,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 7 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 8 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge fail">FAIL</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 1/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -307,7 +344,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::fema-high-risk-flood-area-100-year-floodplain returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-3" hidden>
+        <div class="detail-panel" id="ds-4" hidden>
           <h3>Potential landslide hazard areas 50-foot buffer 2016</h3>
           
           <div class="detail-grid">
@@ -328,7 +365,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 7 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 8 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge fail">FAIL</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 3/500 of the remaining have invalid (e.g. self-intersecting) geometry (1%).</p>
             <p><span class="badge pass">PASS</span>
@@ -338,7 +375,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/27b690919fee4fef96390815298e95a4_0 returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-4" hidden>
+        <div class="detail-panel" id="ds-5" hidden>
           <h3>Wetlands defined from Critical Area Ordinance surveys in King County</h3>
           
           <div class="detail-grid">
@@ -359,7 +396,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 7 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 8 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -369,7 +406,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::wetlands-defined-from-critical-area-ordinance-surveys-in-king-county returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-5" hidden>
+        <div class="detail-panel" id="ds-6" hidden>
           <h3>Sensitive Area Ordinance Streams</h3>
           
           <div class="detail-grid">
@@ -390,7 +427,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 7 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 8 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -400,7 +437,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::sensitive-area-ordinance-streams returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-6" hidden>
+        <div class="detail-panel" id="ds-7" hidden>
           <h3>Rivers and Streams in King County</h3>
           
           <div class="detail-grid">
@@ -421,7 +458,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge fail">FAIL</span>
-            <strong>Freshness</strong> - Last modified 3556 days ago (beyond the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 3557 days ago (beyond the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -431,7 +468,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::rivers-and-streams-in-king-county returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-7" hidden>
+        <div class="detail-panel" id="ds-8" hidden>
           <h3>Roadlog Centerlines owned and maintained by King County Road Services</h3>
           
           <div class="detail-grid">
@@ -452,7 +489,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 7 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 8 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge fail">FAIL</span>
             <strong>Geometry validity</strong> - 5/500 sampled records have null geometry (1%); 0/495 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -462,7 +499,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::roadlog-centerlines-owned-and-maintained-by-king-county-road-services returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-8" hidden>
+        <div class="detail-panel" id="ds-9" hidden>
           <h3>King County Metro Stops</h3>
           
           <div class="detail-grid">
@@ -471,7 +508,7 @@
               <p><strong>Geometry type:</strong> esriGeometryPoint</p>
               <p><strong>Field count:</strong> 56</p>
               <p><strong>Sampled records checked:</strong> 500</p>
-              <p><strong>Last modified (catalog metadata):</strong> 2026-10-22T14:05:31.516Z</p>
+              <p><strong>Last modified (catalog metadata):</strong> 2026-10-23T15:12:59.814Z</p>
             </div>
             <div>
               <p><a href="https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::king-county-metro-stops" target="_blank" rel="noopener">Open on King County Hub</a></p>
@@ -487,13 +524,13 @@
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
-            <strong>CRS / extent sanity</strong> - Sample extent [-122.507, 47.286, -122.019, 47.775] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
+            <strong>CRS / extent sanity</strong> - Sample extent [-122.464, 47.283, -121.564, 47.871] falls within the expected King County lon/lat range (a proxy sanity check, not exact containment).</p>
             <p><span class="badge fail">FAIL</span>
-            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: IMT_CONNECTORLIST (99%), BAY_CODE (98%), ROUTE_LIST (65%), SIGN_MOUNTING_DIR (25%), FRDOORSIDEWALKWIDTH (22%).</p>
+            <strong>Attribute null rates</strong> - Fields above the 20% null-rate threshold: IMT_CONNECTORLIST (100%), BAY_CODE (98%), ROUTE_LIST (58%), SIGN_MOUNTING_DIR (26%).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::king-county-metro-stops returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-9" hidden>
+        <div class="detail-panel" id="ds-10" hidden>
           <h3>Fire Station Locations in King County</h3>
           
           <div class="detail-grid">
@@ -514,7 +551,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 7 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 8 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/155 sampled records have null geometry (0%); 0/155 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -524,7 +561,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::fire-station-locations-in-king-county returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-10" hidden>
+        <div class="detail-panel" id="ds-11" hidden>
           <h3>Tree Point Index</h3>
           
           <div class="detail-grid">
@@ -545,7 +582,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 369 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 370 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/79 sampled records have null geometry (0%); 0/79 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -555,7 +592,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::tree-point-index returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-11" hidden>
+        <div class="detail-panel" id="ds-12" hidden>
           <h3>Watershed boundaries derived from terrain data - King County only</h3>
           
           <div class="detail-grid">
@@ -576,7 +613,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 7 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 8 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/11 sampled records have null geometry (0%); 0/11 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -586,7 +623,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::watershed-boundaries-derived-from-terrain-data-king-county-only returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-12" hidden>
+        <div class="detail-panel" id="ds-13" hidden>
           <h3>LCI Opportunity Areas</h3>
           
           <div class="detail-grid">
@@ -607,7 +644,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 15 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 16 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -617,7 +654,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::lci-opportunity-areas returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-13" hidden>
+        <div class="detail-panel" id="ds-14" hidden>
           <h3>Tree Canopy 2021 - Tree Points</h3>
           <p class="note">Catalog entry points at the service root (80 layers); audited sublayer 94 as a representative sample, not the whole multi-tile family.</p>
           <div class="detail-grid">
@@ -638,7 +675,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 79 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 80 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/79 sampled records have null geometry (0%); 0/79 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -648,7 +685,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/maps/kingcounty::tree-canopy-2021-tree-points returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-14" hidden>
+        <div class="detail-panel" id="ds-15" hidden>
           <h3>t20r11tree point</h3>
           
           <div class="detail-grid">
@@ -669,7 +706,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 369 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 370 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -679,7 +716,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r11tree-point returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-15" hidden>
+        <div class="detail-panel" id="ds-16" hidden>
           <h3>t20r10tree point</h3>
           
           <div class="detail-grid">
@@ -700,7 +737,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 369 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 370 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
@@ -710,7 +747,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Hub link alive</strong> - https://gis-kingcounty.opendata.arcgis.com/datasets/kingcounty::t20r10tree-point returned HTTP 200.</p>
         </div>
-        <div class="detail-panel" id="ds-16" hidden>
+        <div class="detail-panel" id="ds-17" hidden>
           <h3>t20r09tree point</h3>
           
           <div class="detail-grid">
@@ -731,7 +768,7 @@
             <p><span class="badge pass">PASS</span>
             <strong>Metadata completeness</strong> - All core metadata fields present.</p>
             <p><span class="badge pass">PASS</span>
-            <strong>Freshness</strong> - Last modified 369 days ago (within the 1095-day heuristic threshold used here).</p>
+            <strong>Freshness</strong> - Last modified 370 days ago (within the 1095-day heuristic threshold used here).</p>
             <p><span class="badge pass">PASS</span>
             <strong>Geometry validity</strong> - 0/500 sampled records have null geometry (0%); 0/500 of the remaining have invalid (e.g. self-intersecting) geometry (0%).</p>
             <p><span class="badge pass">PASS</span>
